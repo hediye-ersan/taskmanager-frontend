@@ -1,26 +1,27 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Sidebar from "./components/sidebar";
-import Header from "./components/Header";
-import Dashboard from "./components/Dashboard";
-import './output.css'
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Dashboard from './components/Dashboard';
 
+function App() {
+  const isAuthenticated = !!localStorage.getItem('token'); // Token kontrolü
 
-const App = () => {
   return (
     <Router>
-      <div className="flex">
-        <Sidebar />
-        <div className="flex-1">
-          <Header />
-          <Switch>
-            <Route exact path="/" component={Dashboard} />
-            {/* Diğer route'ları buraya ekle */}
-          </Switch>
-        </div>
-      </div>
+      <Switch>
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
+        <Route
+          path="/dashboard"
+          render={() =>
+            isAuthenticated ? <Dashboard /> : <Redirect to="/login" />
+          }
+        />
+        <Redirect from="/" to="/login" />
+      </Switch>
     </Router>
   );
-};
+}
 
-export default App
+export default App;
