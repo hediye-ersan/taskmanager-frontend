@@ -6,7 +6,7 @@ const Sidebar = () => {
   return (
     <aside className="w-60 h-screen bg-white border-r flex flex-col py-6 px-4">
       <div className="flex-1 overflow-y-auto">
-        <h1 className="text-xl font-bold mb-8 px-2">Pro Manage</h1>
+        <h1 className="text-xl font-bold mb-8 px-2">My Manage</h1>
         <nav className="flex flex-col gap-3">
           <NavItem icon={<LayoutGrid size={20} />} text="Dashboard" />
           <NavItem icon={<Table size={20} />} text="Board" active />
