@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import { Bell, HelpCircle, Search } from "lucide-react";
-import Avatar from "react-avatar";
 
 const Header = () => {
   const [username, setUsername] = useState("");
@@ -18,6 +17,15 @@ const Header = () => {
       setProfileImage(storedProfileImage); // Profil fotoğrafını state'e kaydet
     }
   }, []);
+
+  const getInitials = (name) => {
+    if (!name) return "U"; // Kullanıcı adı yoksa "U" (User) göster
+    return name
+      .split(" ")
+      .map((part) => part[0])
+      .join("")
+      .toUpperCase();
+  };
 
   return (
     <header className="bg-white shadow-sm py-3">
@@ -36,12 +44,17 @@ const Header = () => {
         <div className="flex items-center space-x-6">
           <Bell className="w-5 h-5 text-gray-700 cursor-pointer" />
           <HelpCircle className="w-5 h-5 text-gray-700 cursor-pointer" />
-          <Avatar
-            name={username || "User"} // Kullanıcı adı yoksa "User" göster
-            src={profileImage} // Profil fotoğrafı URL'si varsa göster
-            size="40" // Avatar boyutu
-            round={true} // Yuvarlak avatar
-          />
+          {profileImage ? (
+            <img
+              src={profileImage}
+              alt="Profile"
+              className="w-10 h-10 rounded-full object-cover"
+            />
+          ) : (
+            <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-white font-bold">
+              {getInitials(username)}
+            </div>
+          )}
         </div>
       </div>
     </header>
