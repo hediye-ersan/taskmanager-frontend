@@ -25,30 +25,32 @@ const Sidebar = ({ onLogout, onNavigate }) => {
   };
 
   return (
-    <aside className="w-60 h-screen bg-gray-50 border-r flex flex-col py-6 px-4">
+    <aside className="w-60 h-screen bg-gray-50 border-r flex flex-col py-6 px-4 font-caveat drop-shadow-lg">
       <div className="flex-1 overflow-y-auto">
         <h1 className="text-3xl font-bold mb-8 px-2">
-          {username ? `${username}'s Manager 🚀` : "My Manager"}
+          {username
+            ? `${username.charAt(0).toUpperCase()}${username.slice(1).toLowerCase()}'s Manager 🚀`
+            : "My Manager"}
         </h1>
         <nav className="flex flex-col gap-3">
           <NavItem
-            icon={<LayoutDashboard size={20} />}
+            icon={<LayoutDashboard size={25} />}
             text="Dashboard"
             onClick={() => onNavigate("Dashboard")}
           />
           <NavItem
-            icon={<Table size={20} />}
+            icon={<Table size={25} />}
             text="Board"
             onClick={() => onNavigate("Board")}
           />
-          <NavItem icon={<BarChart size={20} />} text="Analytics" />
-          <NavItem icon={<Settings size={20} />} text="Settings" />
+          <NavItem icon={<BarChart size={25} />} text="Analytics" />
+          <NavItem icon={<Settings size={25} />} text="Settings" />
         </nav>
       </div>
 
       <div className="mt-auto">
         <NavItem
-          icon={<LogOut size={20} />}
+          icon={<LogOut size={25} />}
           text="Log out"
           onClick={handleLogout}
         />
