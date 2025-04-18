@@ -45,7 +45,7 @@ export default function BoardColumn({ title, children, onAddTask }) {
       </div>
 
       {/* Kaydırılabilir Görev Alanı */}
-      <div className="flex-1 p-2 space-y-3 overflow-y-auto max-h-[800px]">
+      <div className="flex-1 p-2 space-y-3 overflow-y-auto max-h-[400px]">
         {children}
       </div>
     </div>
