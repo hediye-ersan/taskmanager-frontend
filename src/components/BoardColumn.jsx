@@ -17,7 +17,7 @@ export default function BoardColumn({ title, children, onAddTask }) {
   };
 
   return (
-    <div className={`flex flex-col rounded-2xl p-6 ${getBackgroundColor(title)}`}>
+    <div className={`flex flex-col rounded-2xl p-4 ${getBackgroundColor(title)}`}>
       {/* Sütun Başlığı */}
       <div className="p-4 flex items-center justify-between">
         <h2 className="font-medium text-gray-800">{title}</h2>
