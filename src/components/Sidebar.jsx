@@ -1,6 +1,6 @@
 // src/components/Sidebar.jsx
 
-import { LayoutGrid, Table, BarChart, Settings, LogOut } from "lucide-react";
+import { LayoutDashboard, Table, BarChart, Settings, LogOut } from "lucide-react";
 import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -25,14 +25,14 @@ const Sidebar = ({ onLogout, onNavigate }) => {
   };
 
   return (
-    <aside className="w-60 h-screen bg-white border-r flex flex-col py-6 px-4">
+    <aside className="w-60 h-screen bg-gray-50 border-r flex flex-col py-6 px-4">
       <div className="flex-1 overflow-y-auto">
         <h1 className="text-xl font-bold mb-8 px-2">
-          {username ? `${username}'s Manager` : "My Manager"}
+          {username ? `${username}'s Manager 🚀` : "My Manager"}
         </h1>
         <nav className="flex flex-col gap-3">
           <NavItem
-            icon={<LayoutGrid size={20} />}
+            icon={<LayoutDashboard size={20} />}
             text="Dashboard"
             onClick={() => onNavigate("Dashboard")}
           />

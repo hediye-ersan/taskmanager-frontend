@@ -2,15 +2,29 @@
 import React from "react";
 
 export default function BoardColumn({ title, children, onAddTask }) {
+  // Sütun rengi için bir fonksiyon
+  const getBackgroundColor = (title) => {
+    switch (title) {
+      case "To Do":
+        return "bg-gray-100 text-2xl"; // To Do için yeşil
+      case "In Progress":
+        return "bg-gray-200 text-2xl"; // In Progress için mor
+      case "Done":
+        return "bg-gray-300 text-2xl"; // Done için mavi
+      default:
+        return "bg-gray-100 text-2xl"; // Varsayılan renk
+    }
+  };
+
   return (
-    <div className="flex flex-col bg-gray-50 rounded-lg">
+    <div className={`flex flex-col rounded-2xl p-6 ${getBackgroundColor(title)}`}>
       {/* Sütun Başlığı */}
       <div className="p-4 flex items-center justify-between">
-        <h2 className="font-medium">{title}</h2>
+        <h2 className="font-medium text-gray-800">{title}</h2>
         <div className="flex items-center gap-1">
           {/* + Butonu */}
           <button
-            className="p-1 rounded hover:bg-gray-200"
+            className="p-1 rounded hover:bg-white"
             onClick={onAddTask} // Görev ekleme işlemini tetikler
           >
             <svg
@@ -31,7 +45,7 @@ export default function BoardColumn({ title, children, onAddTask }) {
       </div>
 
       {/* Kaydırılabilir Görev Alanı */}
-      <div className="flex-1 p-2 space-y-3 overflow-y-auto max-h-[400px]">
+      <div className="flex-1 p-2 space-y-3 overflow-y-auto max-h-[800px]">
         {children}
       </div>
     </div>
