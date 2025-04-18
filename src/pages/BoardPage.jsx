@@ -47,11 +47,19 @@ export default function BoardPage() {
           }
         });
 
+        // Görevleri önem derecesine göre sıralayın
+        const sortByPriority = (tasks) => {
+          return tasks.sort((a, b) => {
+            const priorityOrder = { HIGH: 1, MEDIUM: 2, LOW: 3 };
+            return priorityOrder[a.priority] - priorityOrder[b.priority];
+          });
+        };
+
         // Kolonları ve görevleri state'e set et
         setColumns([
-          { id: "todo", title: "To Do", tasks: grouped["To Do"] || [] },
-          { id: "in-progress", title: "In Progress", tasks: grouped["In Progress"] || [] },
-          { id: "done", title: "Done", tasks: grouped["Done"] || [] },
+          { id: "todo", title: "To Do", tasks: sortByPriority(grouped["To Do"] || []) },
+          { id: "in-progress", title: "In Progress", tasks: sortByPriority(grouped["In Progress"] || []) },
+          { id: "done", title: "Done", tasks: sortByPriority(grouped["Done"] || []) },
         ]);
       } catch (err) {
         console.error(err);
