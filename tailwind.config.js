@@ -10,7 +10,13 @@ export default {
     },
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        roboto: ['Roboto', 'sans-serif'], // Roboto fontu
+        ptserif: ['PT Serif', 'serif'], 
+        caveat: ['Caveat', 'cursive'], // Caveat fontu
+      },
+    },
   },
   plugins: [],
 }
