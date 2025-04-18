@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AuthPage = ({ onLogin }) => {
   const [isRegister, setIsRegister] = useState(false); // Login/Register durumu
@@ -32,21 +34,24 @@ const AuthPage = ({ onLogin }) => {
 
       if (response.ok) {
         if (isRegister) {
-          alert("Kayıt başarılı! Şimdi giriş yapabilirsiniz.");
+          // Kayıt başarılı
+          toast.success("Kayıt başarılı! Şimdi giriş yapabilirsiniz.");
           setIsRegister(false); // Kayıt sonrası Login'e geçiş
         } else {
+          // Giriş başarılı
           localStorage.setItem("token", data.token); // Token'ı sakla
           localStorage.setItem("username", username); // Kullanıcı adını sakla
-          alert("Giriş başarılı!");
+          toast.success("Giriş başarılı!");
           onLogin(); // Kullanıcı giriş yaptı olarak işaretlenir
           history.push("/dashboard"); // Dashboard'a yönlendir
         }
       } else {
-        alert(data.message || (isRegister ? 'Kayıt başarısız!' : 'Giriş başarısız!'));
+        // Hatalı işlem
+        toast.error(data.message || (isRegister ? 'Kayıt başarısız!' : 'Giriş başarısız!'));
       }
     } catch (err) {
       console.error(err);
-      alert('Sunucuya bağlanılamadı.');
+      toast.error('Sunucuya bağlanılamadı.');
     }
   };
 
@@ -115,6 +120,7 @@ const AuthPage = ({ onLogin }) => {
           )}
         </p>
       </form>
+      <ToastContainer />
     </div>
   );
 };
