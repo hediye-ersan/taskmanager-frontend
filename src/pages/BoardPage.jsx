@@ -14,6 +14,8 @@ export default function BoardPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentColumn, setCurrentColumn] = useState(null);
   const [newTask, setNewTask] = useState({ title: "", description: "", priority: "LOW" });
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [currentTask, setCurrentTask] = useState(null);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -57,6 +59,56 @@ export default function BoardPage() {
     fetchTasks();
   }, []);
 
+  const handleSaveUpdatedTask = () => {
+    if (!currentTask.title) return alert("Görev başlığı gerekli!");
+
+    const updatedTaskData = {
+      title: currentTask.title,
+      description: currentTask.description,
+      priority: currentTask.priority,
+      boardColumnName: currentTask.boardColumnName, // Eğer kolon bilgisi de güncelleniyorsa
+    };
+
+    handleUpdateTask(currentTask.id, updatedTaskData);
+  };
+
+  const handleUpdateTask = async (taskId, updatedTaskData) => {
+    console.log("Gönderilen taskId:", taskId);
+    console.log("Gönderilen updatedTaskData:", updatedTaskData);
+
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(`http://localhost:8080/api/tasks/${taskId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(updatedTaskData),
+      });
+
+      if (!res.ok) throw new Error("Görev güncellenemedi");
+
+      const updatedTask = await res.json();
+
+      setColumns((prevColumns) =>
+        prevColumns.map((col) => ({
+          ...col,
+          tasks: col.tasks.map((task) =>
+            task.id === updatedTask.id ? updatedTask : task
+          ),
+        }))
+      );
+
+      setIsUpdateModalOpen(false);
+      setCurrentTask(null);
+    } catch (err) {
+      console.error(err);
+      alert("Görev güncellenirken bir hata oluştu.");
+    }
+  };
+
+  // Yeni görev ekleme
   const handleAddTask = (columnId) => {
     setCurrentColumn(columnId);
     setIsModalOpen(true);
@@ -100,6 +152,36 @@ export default function BoardPage() {
     }
   };
 
+  // Görev silme
+  const handleDeleteTask = async (taskId, columnId) => {
+    // Uyarı mesajını yalnızca bir kez göster
+    if (!window.confirm("Bu görevi silmek istediğinize emin misiniz?")) return;
+
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(`http://localhost:8080/api/tasks/${taskId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) throw new Error("Görev silinemedi");
+
+      // Görevi frontend'den kaldır
+      setColumns((prevColumns) =>
+        prevColumns.map((col) =>
+          col.id === columnId
+            ? { ...col, tasks: col.tasks.filter((task) => task.id !== taskId) }
+            : col
+        )
+      );
+    } catch (err) {
+      console.error(err);
+      alert("Görev silinirken bir hata oluştu.");
+    }
+  };
+
   return (
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
@@ -121,11 +203,68 @@ export default function BoardPage() {
                 description={task.description}
                 priority={task.priority}
                 createdAt={task.createdAt}
+                onDelete={() => handleDeleteTask(task.id, column.id)}
+                onUpdate={() => {
+                  setCurrentTask(task);
+                  setIsUpdateModalOpen(true);
+                }}
+              // Güncelleme butonunu tetikler
               />
             ))}
           </BoardColumn>
         ))}
       </div>
+
+      {/* Güncelleme Modalı */}
+      {isUpdateModalOpen && currentTask && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded shadow-lg w-96">
+            <h2 className="text-xl font-bold mb-4">Görevi Güncelle</h2>
+            <input
+              type="text"
+              placeholder="Görev Başlığı"
+              className="w-full p-2 border rounded mb-4"
+              value={currentTask.title}
+              onChange={(e) =>
+                setCurrentTask({ ...currentTask, title: e.target.value })
+              }
+            />
+            <textarea
+              placeholder="Görev Açıklaması"
+              className="w-full p-2 border rounded mb-4"
+              value={currentTask.description}
+              onChange={(e) =>
+                setCurrentTask({ ...currentTask, description: e.target.value })
+              }
+            />
+            <select
+              className="w-full p-2 border rounded mb-4"
+              value={currentTask.priority}
+              onChange={(e) =>
+                setCurrentTask({ ...currentTask, priority: e.target.value })
+              }
+            >
+              <option value="LOW">Düşük</option>
+              <option value="MEDIUM">Orta</option>
+              <option value="HIGH">Yüksek</option>
+            </select>
+            <div className="flex justify-end gap-2">
+              <button
+                className="px-4 py-2 bg-gray-300 rounded"
+                onClick={() => setIsUpdateModalOpen(false)}
+              >
+                İptal
+              </button>
+              <button
+                className="px-4 py-2 bg-blue-500 text-white rounded"
+                onClick={handleSaveUpdatedTask}
+              >
+                Kaydet
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Modal */}
       {isModalOpen && (
