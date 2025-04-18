@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { formatDistanceToNow } from "date-fns";
+import { tr } from "date-fns/locale"; // Türkçe tarih formatı için
 
 const DashboardPage = () => {
   const [tasks, setTasks] = useState([]);
@@ -7,6 +9,7 @@ const DashboardPage = () => {
     inProgress: 0,
     done: 0,
   });
+  const [recentActivities, setRecentActivities] = useState([]);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -29,8 +32,13 @@ const DashboardPage = () => {
           inProgress: data.filter((task) => task.boardColumnName === "In Progress").length,
           done: data.filter((task) => task.boardColumnName === "Done").length,
         };
-
         setTaskCounts(counts);
+
+        // Son 3 etkinliği al
+        const sortedActivities = data
+          .sort((a, b) => new Date(b.updatedAt || b.createdAt) - new Date(a.updatedAt || a.createdAt))
+          .slice(0, 3);
+        setRecentActivities(sortedActivities);
       } catch (err) {
         console.error(err);
       }
@@ -61,9 +69,18 @@ const DashboardPage = () => {
         <div className="bg-white p-4 rounded-lg shadow">
           <h2 className="text-xl font-semibold mb-4">Son Etkinlikler</h2>
           <ul className="text-gray-600 space-y-2">
-            <li>VH bir görev tamamladı.</li>
-            <li>AG yeni bir görev ekledi.</li>
-            <li>ML bir görevi düzenledi.</li>
+            {recentActivities.map((activity, index) => (
+              <li key={index}>
+                <span className="font-semibold">{activity.title || "Bir görev"}</span>{" "}
+                {activity.updatedAt
+                  ? "güncellendi"
+                  : "eklendi"}{" "}
+                ({formatDistanceToNow(new Date(activity.updatedAt || activity.createdAt), {
+                  addSuffix: true,
+                  locale: tr,
+                })})
+              </li>
+            ))}
           </ul>
         </div>
 
