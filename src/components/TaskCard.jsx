@@ -20,7 +20,7 @@ export function TaskCard({ id, title, description, priority, createdAt, onDelete
       onClick={onClick} // Tıklama olayını ekledik
     >
       {/* Başlık ve Açıklama */}
-      <div className="flex flex-col font-caveat">
+      <div className="flex flex-col font-caveat gap-1">
         <h3 className="text-lg font-bold text-gray-800">{title}</h3>
         <p className="text-sm text-gray-600">{description}</p>
       </div>
