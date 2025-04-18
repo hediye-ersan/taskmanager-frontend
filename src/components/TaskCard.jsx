@@ -1,6 +1,6 @@
 import React from "react";
 
-export function TaskCard({ id, title, description, priority, createdAt, onDelete, onUpdate }) {
+export function TaskCard({ id, title, description, priority, createdAt, onDelete, onUpdate, onClick }) {
   const getColorForPriority = (priority) => {
     switch (priority.toUpperCase()) {
       case "HIGH":
@@ -16,7 +16,8 @@ export function TaskCard({ id, title, description, priority, createdAt, onDelete
 
   return (
     <div
-      className="p-4 bg-white rounded-xl shadow relative flex flex-col gap-2 transition-transform transform hover:scale-105 hover:shadow-lg"
+      className="p-4 bg-white rounded-xl shadow relative flex flex-col gap-2 transition-transform transform hover:scale-105 hover:shadow-lg cursor-pointer"
+      onClick={onClick} // Tıklama olayını ekledik
     >
       {/* Başlık ve Açıklama */}
       <div className="flex flex-col">
@@ -35,7 +36,10 @@ export function TaskCard({ id, title, description, priority, createdAt, onDelete
           {/* Güncelle Butonu */}
           <button
             className="hover:bg-gray-200 rounded-full p-1"
-            onClick={() => onUpdate(id)}
+            onClick={(e) => {
+              e.stopPropagation(); // Tıklama olayını durdur
+              onUpdate(id);
+            }}
           >
             <img
               src="../public/images/pencil.svg"
@@ -47,7 +51,8 @@ export function TaskCard({ id, title, description, priority, createdAt, onDelete
           {/* Silme Butonu */}
           <button
             className="hover:bg-gray-200 rounded-full p-1"
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation(); // Tıklama olayını durdur
               if (window.confirm("Bu görevi silmek istediğinize emin misiniz?")) {
                 onDelete(id);
               }

@@ -13,11 +13,20 @@ export default function BoardPage() {
     { id: "done", title: "Done", tasks: [] },
   ]);
 
+  const [selectedTask, setSelectedTask] = useState(null); // Tıklanan görevi tutar
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentColumn, setCurrentColumn] = useState(null);
   const [newTask, setNewTask] = useState({ title: "", description: "", priority: "LOW" });
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [currentTask, setCurrentTask] = useState(null);
+
+  const handleTaskClick = (task) => {
+    setSelectedTask(task); // Tıklanan görevi state'e set et
+  };
+
+  const closeTaskModal = () => {
+    setSelectedTask(null); // Modalı kapat
+  };
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -223,6 +232,7 @@ export default function BoardPage() {
                 description={task.description}
                 priority={task.priority}
                 createdAt={task.createdAt}
+                onClick={() => handleTaskClick(task)} // Tıklama olayını ekledik
                 onDelete={() => handleDeleteTask(task.id, column.id)}
                 onUpdate={() => {
                   setCurrentTask(task);
@@ -233,6 +243,31 @@ export default function BoardPage() {
           </BoardColumn>
         ))}
       </div>
+
+      {/* Görev Detay Modalı */}
+      {selectedTask && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-md">
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">{selectedTask.title}</h2>
+            <p className="text-gray-600 mb-4">{selectedTask.description}</p>
+            <p className="text-sm text-gray-500 mb-4">
+              <span className="font-semibold">Priority:</span> {selectedTask.priority}
+            </p>
+            <p className="text-sm text-gray-500 mb-4">
+              <span className="font-semibold">Created At:</span>{" "}
+              {new Date(selectedTask.createdAt).toLocaleString()}
+            </p>
+            <div className="flex justify-end">
+              <button
+                className="px-4 py-2 bg-sky-300 text-white rounded hover:bg-blue-600 transition"
+                onClick={closeTaskModal}
+              >
+                Kapat
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Güncelleme Modalı */}
       {isUpdateModalOpen && currentTask && (
