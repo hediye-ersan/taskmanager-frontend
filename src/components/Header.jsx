@@ -29,7 +29,7 @@ const Header = () => {
 
   return (
     <header className="bg-gray-50 shadow-sm py-3">
-      <div className="width-full px-6 mx-auto flex items-center justify-between">
+      <div className="width-full px-4 mx-auto flex items-center justify-between">
         {/* Arama alanı */}
         <div className="flex items-center px-3 py-2 border rounded-full bg-white text-gray-500 flex-grow max-w-lg mr-4">
           <Search className="w-4 h-4 mr-2" />
