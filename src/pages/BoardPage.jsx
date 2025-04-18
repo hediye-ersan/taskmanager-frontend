@@ -1,8 +1,10 @@
 "use client";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
 import BoardColumn from "../components/BoardColumn";
 import { TaskCard } from "../components/TaskCard";
+import TaskModal from "../components/TaskModal";
 
 export default function BoardPage() {
   const [columns, setColumns] = useState([
@@ -102,9 +104,13 @@ export default function BoardPage() {
 
       setIsUpdateModalOpen(false);
       setCurrentTask(null);
+
+      // Başarılı bildirim
+      toast.success("Görev başarıyla güncellendi!");
     } catch (err) {
       console.error(err);
-      alert("Görev güncellenirken bir hata oluştu.");
+      // Hata bildirimi
+      toast.error("Görev güncellenirken bir hata oluştu.");
     }
   };
 
@@ -146,9 +152,12 @@ export default function BoardPage() {
 
       setIsModalOpen(false);
       setNewTask({ title: "", description: "", priority: "LOW" });
+      // Başarılı bildirim
+      toast.success("Görev başarıyla eklendi!");
     } catch (err) {
       console.error(err);
-      alert("Görev eklenirken bir hata oluştu.");
+      // Hata bildirimi
+      toast.error("Görev eklenirken bir hata oluştu.");
     }
   };
 
@@ -176,14 +185,17 @@ export default function BoardPage() {
             : col
         )
       );
+      // Başarılı bildirim
+      toast.success("Görev başarıyla silindi!");
     } catch (err) {
       console.error(err);
-      alert("Görev silinirken bir hata oluştu.");
+      // Hata bildirimi
+      toast.error("Görev silinirken bir hata oluştu.");
     }
   };
 
   return (
-    <div className="p-6">
+    <div className="p-4">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold">Board ✨</h1>
       </div>
@@ -208,7 +220,6 @@ export default function BoardPage() {
                   setCurrentTask(task);
                   setIsUpdateModalOpen(true);
                 }}
-              // Güncelleme butonunu tetikler
               />
             ))}
           </BoardColumn>
@@ -229,14 +240,20 @@ export default function BoardPage() {
                 setCurrentTask({ ...currentTask, title: e.target.value })
               }
             />
-            <textarea
-              placeholder="Görev Açıklaması"
-              className="w-full p-2 border rounded mb-4"
-              value={currentTask.description}
-              onChange={(e) =>
-                setCurrentTask({ ...currentTask, description: e.target.value })
-              }
-            />
+            <div>
+              <textarea
+                placeholder="Görev Açıklaması"
+                className="w-full p-2 border rounded mb-4"
+                value={currentTask.description}
+                onChange={(e) =>
+                  setCurrentTask({ ...currentTask, description: e.target.value })
+                }
+                maxLength={255}
+              />
+              <p className="text-sm text-gray-500">
+                {255 - currentTask.description.length} karakter kaldı
+              </p>
+            </div>
             <select
               className="w-full p-2 border rounded mb-4"
               value={currentTask.priority}
@@ -267,49 +284,16 @@ export default function BoardPage() {
       )}
 
       {/* Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded shadow-lg w-96">
-            <h2 className="text-xl font-bold mb-4">Yeni Görev Ekle</h2>
-            <input
-              type="text"
-              placeholder="Görev Başlığı"
-              className="w-full p-2 border rounded mb-4"
-              value={newTask.title}
-              onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
-            />
-            <textarea
-              placeholder="Görev Açıklaması"
-              className="w-full p-2 border rounded mb-4"
-              value={newTask.description}
-              onChange={(e) => setNewTask({ ...newTask, description: e.target.value })}
-            />
-            <select
-              className="w-full p-2 border rounded mb-4"
-              value={newTask.priority}
-              onChange={(e) => setNewTask({ ...newTask, priority: e.target.value })}
-            >
-              <option value="LOW">Düşük</option>
-              <option value="MEDIUM">Orta</option>
-              <option value="HIGH">Yüksek</option>
-            </select>
-            <div className="flex justify-end gap-2">
-              <button
-                className="px-4 py-2 bg-gray-300 rounded"
-                onClick={() => setIsModalOpen(false)}
-              >
-                İptal
-              </button>
-              <button
-                className="px-4 py-2 bg-blue-500 text-white rounded"
-                onClick={handleSaveTask}
-              >
-                Kaydet
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <TaskModal
+        isOpen={isModalOpen}
+        task={newTask}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleSaveTask}
+        onChange={setNewTask}
+      />
+
+      {/* Toastify Container */}
+      <ToastContainer />
     </div>
   );
 }
