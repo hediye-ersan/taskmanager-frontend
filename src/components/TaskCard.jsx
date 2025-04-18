@@ -15,7 +15,9 @@ export function TaskCard({ id, title, description, priority, createdAt, onDelete
   };
 
   return (
-    <div className="p-4 bg-white rounded-xl shadow relative flex flex-col gap-2">
+    <div
+      className="p-4 bg-white rounded-xl shadow relative flex flex-col gap-2 transition-transform transform hover:scale-105 hover:shadow-lg"
+    >
       {/* Başlık ve Açıklama */}
       <div className="flex flex-col">
         <h3 className="text-lg font-bold text-gray-800">{title}</h3>
