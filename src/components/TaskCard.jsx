@@ -4,11 +4,11 @@ export function TaskCard({ id, title, description, priority, createdAt, onDelete
   const getColorForPriority = (priority) => {
     switch (priority.toUpperCase()) {
       case "HIGH":
-        return "bg-rose-500 text-white";
+        return "bg-red-500 text-white";
       case "MEDIUM":
-        return "bg-sky-300 text-white";
+        return "bg-yellow-500 text-white";
       case "LOW":
-        return "bg-lime-400 text-white";
+        return "bg-green-500 text-white";
       default:
         return "bg-gray-400 text-white";
     }
