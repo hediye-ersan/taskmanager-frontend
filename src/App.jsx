@@ -6,6 +6,7 @@ import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import AuthPage from "./pages/AuthPage";
 import DashboardPage from "./pages/DashboardPage";
+import AnalyticsPage from "./pages/AnalyticsPage";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -48,8 +49,10 @@ function App() {
                   <Header onSearch={setSearchQuery} /> {/* Arama kelimesini al */}
                   {activePage === "Dashboard" ? (
                     <DashboardPage />
+                  ) : activePage === "Board" ? (
+                    <BoardPage searchQuery={searchQuery} />
                   ) : (
-                    <BoardPage searchQuery={searchQuery} /> 
+                    <AnalyticsPage /> 
                   )}
                 </div>
               </div>

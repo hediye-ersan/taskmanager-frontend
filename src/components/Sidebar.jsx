@@ -43,7 +43,11 @@ const Sidebar = ({ onLogout, onNavigate }) => {
             text="Board"
             onClick={() => onNavigate("Board")}
           />
-          <NavItem icon={<BarChart size={25} />} text="Analytics" />
+          <NavItem
+            icon={<BarChart size={25} />}
+            text="Analytics"
+            onClick={() => onNavigate("Analytics")} // Analytics sayfasına yönlendir
+          />
           <NavItem icon={<Settings size={25} />} text="Settings" />
         </nav>
       </div>
