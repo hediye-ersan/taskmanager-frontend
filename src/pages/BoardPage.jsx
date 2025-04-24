@@ -6,7 +6,7 @@ import BoardColumn from "../components/BoardColumn";
 import { TaskCard } from "../components/TaskCard";
 import TaskModal from "../components/TaskModal";
 
-export default function BoardPage() {
+export default function BoardPage({ searchQuery }) {
   const [columns, setColumns] = useState([
     { id: "todo", title: "To Do", tasks: [] },
     { id: "in-progress", title: "In Progress", tasks: [] },
@@ -80,20 +80,32 @@ export default function BoardPage() {
 
   const filterTasks = (tasks) => {
     const now = new Date();
+    let filteredTasks = tasks;
+
     if (filter === "lastHour") {
-      return tasks.filter(
+      filteredTasks = filteredTasks.filter(
         (task) => now - new Date(task.createdAt) <= 60 * 60 * 1000
       );
     } else if (filter === "lastWeek") {
-      return tasks.filter(
+      filteredTasks = filteredTasks.filter(
         (task) => now - new Date(task.createdAt) <= 7 * 24 * 60 * 60 * 1000
       );
     } else if (filter === "lastMonth") {
-      return tasks.filter(
+      filteredTasks = filteredTasks.filter(
         (task) => now - new Date(task.createdAt) <= 30 * 24 * 60 * 60 * 1000
       );
     }
-    return tasks; // "all" seçeneği için tüm taskları döndür
+
+    // Arama kelimesine göre filtreleme
+    if (searchQuery) {
+      filteredTasks = filteredTasks.filter(
+        (task) =>
+          task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          task.description.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    return filteredTasks;
   };
 
   const filteredColumns = columns.map((column) => ({

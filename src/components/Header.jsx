@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Bell, HelpCircle, Search } from "lucide-react";
 
-const Header = () => {
+const Header = ({ onSearch }) => {
   const [username, setUsername] = useState("");
   const [profileImage, setProfileImage] = useState("");
 
@@ -11,15 +11,15 @@ const Header = () => {
     const storedUsername = localStorage.getItem("username");
     const storedProfileImage = localStorage.getItem("profileImage");
     if (storedUsername) {
-      setUsername(storedUsername); // Kullanıcı adını state'e kaydet
+      setUsername(storedUsername);
     }
     if (storedProfileImage) {
-      setProfileImage(storedProfileImage); // Profil fotoğrafını state'e kaydet
+      setProfileImage(storedProfileImage);
     }
   }, []);
 
   const getInitials = (name) => {
-    if (!name) return "U"; // Kullanıcı adı yoksa "U" (User) göster
+    if (!name) return "U";
     return name
       .split(" ")
       .map((part) => part[0])
@@ -35,8 +35,9 @@ const Header = () => {
           <Search className="w-4 h-4 mr-2" />
           <input
             type="text"
-            placeholder="Search"
+            placeholder="Görevlerde ara..."
             className="w-full bg-transparent outline-none text-sm"
+            onChange={(e) => onSearch(e.target.value)} // Arama kelimesini üst bileşene ilet
           />
         </div>
 

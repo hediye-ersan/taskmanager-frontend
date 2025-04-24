@@ -12,6 +12,7 @@ function App() {
   const [isAuthChecked, setIsAuthChecked] = useState(false);
 
   const [activePage, setActivePage] = useState("Board"); // Aktif sayfa durumu
+  const [searchQuery, setSearchQuery] = useState(""); // Arama kelimesi
 
   // Uygulama yüklendiğinde token kontrolü
   useEffect(() => {
@@ -21,7 +22,6 @@ function App() {
     }
     setIsAuthChecked(true); // Kontrol tamamlandı
   }, []);
-  
 
   const handleLogout = () => {
     localStorage.removeItem("token"); // Token'ı temizle
@@ -45,8 +45,12 @@ function App() {
               <div className="flex">
                 <Sidebar onLogout={handleLogout} onNavigate={setActivePage} />
                 <div className="flex-1">
-                  <Header />
-                  {activePage === "Dashboard" ? <DashboardPage /> : <BoardPage />}
+                  <Header onSearch={setSearchQuery} /> {/* Arama kelimesini al */}
+                  {activePage === "Dashboard" ? (
+                    <DashboardPage />
+                  ) : (
+                    <BoardPage searchQuery={searchQuery} /> 
+                  )}
                 </div>
               </div>
             ) : (
