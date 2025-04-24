@@ -25,7 +25,7 @@ const Sidebar = ({ onLogout, onNavigate }) => {
   };
 
   return (
-    <aside className="w-60 h-screen bg-gray-50 border-r flex flex-col py-6 px-4 font-caveat drop-shadow-lg">
+    <aside className="w-60 h-screen bg-gray-50 border-r flex flex-col py-6 px-4 font-caveat drop-shadow-lg min-h-screen">
       <div className="flex-1 overflow-y-auto">
         <h1 className="text-3xl font-bold mb-8 px-2">
           {username
