@@ -12,7 +12,7 @@ export default function BoardPage() {
     { id: "in-progress", title: "In Progress", tasks: [] },
     { id: "done", title: "Done", tasks: [] },
   ]);
-
+  const [filter, setFilter] = useState("all"); // Filtreleme seçeneği
   const [selectedTask, setSelectedTask] = useState(null); // Tıklanan görevi tutar
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentColumn, setCurrentColumn] = useState(null);
@@ -77,6 +77,29 @@ export default function BoardPage() {
 
     fetchTasks();
   }, []);
+
+  const filterTasks = (tasks) => {
+    const now = new Date();
+    if (filter === "lastHour") {
+      return tasks.filter(
+        (task) => now - new Date(task.createdAt) <= 60 * 60 * 1000
+      );
+    } else if (filter === "lastWeek") {
+      return tasks.filter(
+        (task) => now - new Date(task.createdAt) <= 7 * 24 * 60 * 60 * 1000
+      );
+    } else if (filter === "lastMonth") {
+      return tasks.filter(
+        (task) => now - new Date(task.createdAt) <= 30 * 24 * 60 * 60 * 1000
+      );
+    }
+    return tasks; // "all" seçeneği için tüm taskları döndür
+  };
+
+  const filteredColumns = columns.map((column) => ({
+    ...column,
+    tasks: filterTasks(column.tasks),
+  }));
 
   const handleSaveUpdatedTask = () => {
     if (!currentTask.title) return alert("Görev başlığı gerekli!");
@@ -228,13 +251,24 @@ export default function BoardPage() {
   };
 
   return (
-    <div className="p-4 ">
+    <div className="p-4">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold font-caveat"> My Board ✨</h1>
+        <h1 className="text-3xl font-bold font-caveat">My Board ✨</h1>
+        {/* Filtreleme Dropdown */}
+        <select
+          className="p-2 border rounded-md bg-gray-50 font-caveat"
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+        >
+          <option value="all">Tüm Görevler</option>
+          <option value="lastHour">Son 1 Saat</option>
+          <option value="lastWeek">Son 1 Hafta</option>
+          <option value="lastMonth">Son 1 Ay</option>
+        </select>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {columns.map((column) => (
+        {filteredColumns.map((column) => (
           <BoardColumn
             key={column.id}
             title={column.title}
@@ -248,7 +282,7 @@ export default function BoardPage() {
                 description={task.description}
                 priority={task.priority}
                 createdAt={task.createdAt}
-                onClick={() => handleTaskClick(task)} // Tıklama olayını ekledik
+                onClick={() => handleTaskClick(task)}
                 onDelete={() => handleDeleteTask(task.id, column.id)}
                 onUpdate={() => {
                   setCurrentTask(task);
