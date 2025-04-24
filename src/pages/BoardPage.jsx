@@ -308,6 +308,20 @@ export default function BoardPage() {
               <option value="MEDIUM">Orta</option>
               <option value="HIGH">Yüksek</option>
             </select>
+            {/* Kategori Seçimi */}
+            <select
+              className="w-full p-2 border rounded mb-4"
+              value={currentTask.boardColumnName}
+              onChange={(e) =>
+                setCurrentTask({ ...currentTask, boardColumnName: e.target.value })
+              }
+            >
+              {columns.map((column) => (
+                <option key={column.id} value={column.title}>
+                  {column.title}
+                </option>
+              ))}
+            </select>
             <div className="flex justify-end gap-2">
               <button
                 className="px-4 py-2 bg-gray-300 rounded"
