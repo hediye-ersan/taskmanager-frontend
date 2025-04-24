@@ -110,14 +110,30 @@ export default function BoardPage() {
 
       const updatedTask = await res.json();
 
-      setColumns((prevColumns) =>
-        prevColumns.map((col) => ({
-          ...col,
-          tasks: col.tasks.map((task) =>
-            task.id === updatedTask.id ? updatedTask : task
-          ),
-        }))
-      );
+      // Görevi eski kolondan kaldır ve yeni kolona ekle
+      setColumns((prevColumns) => {
+        const updatedColumns = prevColumns.map((col) => {
+          // Eski kolondan görevi kaldır
+          if (col.tasks.some((task) => task.id === updatedTask.id)) {
+            return {
+              ...col,
+              tasks: col.tasks.filter((task) => task.id !== updatedTask.id),
+            };
+          }
+          return col;
+        });
+
+        // Yeni kolona görevi ekle
+        return updatedColumns.map((col) => {
+          if (col.title === updatedTask.boardColumnName) {
+            return {
+              ...col,
+              tasks: [...col.tasks, updatedTask],
+            };
+          }
+          return col;
+        });
+      });
 
       setIsUpdateModalOpen(false);
       setCurrentTask(null);
