@@ -1,6 +1,6 @@
 import React from "react";
 
-export function TaskCard({ id, title, description, priority, createdAt, onDelete, onUpdate, onClick }) {
+export function TaskCard({ id, title, description, priority, createdAt, onDelete, onUpdate, onClick,highlight }) {
   const getColorForPriority = (priority) => {
     switch (priority.toUpperCase()) {
       case "HIGH":
@@ -14,6 +14,19 @@ export function TaskCard({ id, title, description, priority, createdAt, onDelete
     }
   };
 
+  const highlightText = (text, query) => {
+    if (!query) return text;
+
+    const parts = text.split(new RegExp(`(${query})`, "gi"));
+    return parts.map((part, index) =>
+      part.toLowerCase() === query.toLowerCase() ? (
+        <span key={index} className="bg-yellow-200">{part}</span>
+      ) : (
+        part
+      )
+    );
+  };
+
   return (
     <div
       className="p-4 bg-white rounded-xl shadow relative flex flex-col gap-2 transition-transform transform hover:scale-105 hover:shadow-lg cursor-pointer"
@@ -21,8 +34,8 @@ export function TaskCard({ id, title, description, priority, createdAt, onDelete
     >
       {/* Başlık ve Açıklama */}
       <div className="flex flex-col font-caveat gap-1">
-        <h3 className="text-lg font-bold text-gray-800">{title}</h3>
-        <p className="text-sm text-gray-600">{description}</p>
+        <h3 className="text-lg font-bold text-gray-800">{highlightText(title, highlight)}</h3>
+        <p className="text-sm text-gray-600">{highlightText(description, highlight)}</p>
       </div>
 
       {/* Öncelik ve İkonlar */}

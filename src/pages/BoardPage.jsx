@@ -294,6 +294,7 @@ export default function BoardPage({ searchQuery }) {
                 description={task.description}
                 priority={task.priority}
                 createdAt={task.createdAt}
+                highlight={searchQuery}
                 onClick={() => handleTaskClick(task)}
                 onDelete={() => handleDeleteTask(task.id, column.id)}
                 onUpdate={() => {
