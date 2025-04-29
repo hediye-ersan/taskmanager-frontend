@@ -263,12 +263,12 @@ export default function BoardPage({ searchQuery }) {
   };
 
   return (
-    <div className="p-4">
-      <div className="flex items-center justify-between mb-6">
+    <div className="p-4 dark:bg-gray-900 dark:text-white">
+      <div className="flex items-center justify-between mb-6 ">
         <h1 className="text-3xl font-bold font-caveat">My Board ✨</h1>
         {/* Filtreleme Dropdown */}
         <select
-          className="p-2 border rounded-md bg-gray-50 font-caveat"
+          className="p-2 border rounded-md bg-gray-50 dark:bg-gray-800 font-caveat"
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
         >
