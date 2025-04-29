@@ -6,18 +6,18 @@ export default function BoardColumn({ title, children, onAddTask }) {
   const getBackgroundColor = (title) => {
     switch (title) {
       case "To Do":
-        return "bg-gray-100 text-2xl font-caveat"; // To Do için yeşil
+        return "bg-gray-100 dark:bg-gray-600 dark:text-white text-2xl font-caveat"; 
       case "In Progress":
-        return "bg-gray-200 text-2xl font-caveat"; // In Progress için mor
+        return "bg-gray-200 dark:bg-gray-700 text-2xl font-caveat"; 
       case "Done":
-        return "bg-gray-300 text-2xl font-caveat"; // Done için mavi
+        return "bg-gray-300 dark:bg-gray-800 text-2xl font-caveat"; // Done için mavi
       default:
         return "bg-gray-100 text-2xl font-caveat"; // Varsayılan renk
     }
   };
 
   return (
-    <div className={`flex flex-col rounded-2xl  p-4 ${getBackgroundColor(title)}`}>
+    <div className={`flex flex-col rounded-2xl p-4 ${getBackgroundColor(title)}`}>
       {/* Sütun Başlığı */}
       <div className="p-4 flex items-center justify-between">
         <h2 className="font-medium text-gray-800">{title}</h2>
