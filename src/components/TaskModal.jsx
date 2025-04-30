@@ -1,6 +1,6 @@
 import React from "react";
 
-const TaskModal = ({ isOpen, task, onClose, onSave, onChange }) => {
+const TaskModal = ({ isOpen, task, onClose, onSave,dueDate, onChange }) => {
   if (!isOpen) return null;
 
   return (
@@ -31,6 +31,14 @@ const TaskModal = ({ isOpen, task, onClose, onSave, onChange }) => {
           <option value="MEDIUM">Orta</option>
           <option value="HIGH">Yüksek</option>
         </select>
+
+        <input
+          type="date"
+          className="w-full p-2 border rounded mb-4"
+          value={task.dueDate || ""}
+          onChange={(e) => onChange({ ...task, dueDate: e.target.value })}
+        />
+
         <div className="flex justify-end gap-2">
           <button
             className="px-4 py-2 bg-gray-300 rounded"

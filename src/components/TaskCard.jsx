@@ -1,7 +1,7 @@
 import React from "react";
 import { PencilRuler, Trash2 } from 'lucide-react';
 
-export function TaskCard({ id, title, description, priority, createdAt, onDelete, onUpdate, onClick, highlight }) {
+export function TaskCard({ id, title, description, priority, createdAt, onDelete,dueDate, onUpdate, onClick, highlight }) {
   const getColorForPriority = (priority) => {
     switch (priority.toUpperCase()) {
       case "HIGH":
@@ -15,7 +15,25 @@ export function TaskCard({ id, title, description, priority, createdAt, onDelete
     }
   };
 
-
+  const calculateRemainingTime = (dueDate) => {
+    if (!dueDate) return "No deadline";
+  
+    // Tarih formatını manuel olarak parçala
+    const [year, month, day] = dueDate.split("-").map(Number); // YYYY-MM-DD formatını parçala
+    const deadline = new Date(year, month - 1, day); // Aylar 0 tabanlı olduğu için -1 yapıyoruz
+  
+    const now = new Date();
+  
+    if (isNaN(deadline)) return "Invalid date"; // Tarih formatı hatası kontrolü
+  
+    const diff = deadline - now;
+  
+    if (diff <= 0) return "Deadline passed";
+  
+    const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+    return `${days} day(s) remaining`;
+  };
+  
   const highlightText = (text, query) => {
     if (!query) return text;
 
@@ -82,6 +100,9 @@ export function TaskCard({ id, title, description, priority, createdAt, onDelete
       {/* Oluşturulma Tarihi */}
       <p className="text-xs text-gray-400 mt-2">
         Created At: {new Date(createdAt).toLocaleString()}
+      </p>
+      <p className="text-xs text-gray-500">
+        {calculateRemainingTime(dueDate)}
       </p>
     </div>
   );

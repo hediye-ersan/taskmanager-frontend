@@ -16,7 +16,7 @@ export default function BoardPage({ searchQuery }) {
   const [selectedTask, setSelectedTask] = useState(null); // Tıklanan görevi tutar
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentColumn, setCurrentColumn] = useState(null);
-  const [newTask, setNewTask] = useState({ title: "", description: "", priority: "LOW" });
+  const [newTask, setNewTask] = useState({ title: "", description: "", priority: "LOW", dueDate: "" });
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [currentTask, setCurrentTask] = useState(null);
 
@@ -121,6 +121,7 @@ export default function BoardPage({ searchQuery }) {
       description: currentTask.description,
       priority: currentTask.priority,
       boardColumnName: currentTask.boardColumnName, // Eğer kolon bilgisi de güncelleniyorsa
+      dueDate: currentTask.dueDate, // Tahmini bitiş tarihi
     };
 
     handleUpdateTask(currentTask.id, updatedTaskData);
@@ -189,6 +190,7 @@ export default function BoardPage({ searchQuery }) {
   };
 
   const handleSaveTask = async () => {
+    console.log("handleSaveTask - newTask:", newTask);
     if (!newTask.title) return alert("Görev başlığı gerekli!");
 
     try {
@@ -219,7 +221,7 @@ export default function BoardPage({ searchQuery }) {
       );
 
       setIsModalOpen(false);
-      setNewTask({ title: "", description: "", priority: "LOW" });
+      setNewTask({ title: "", description: "", priority: "LOW", dueDate: "" });
       // Başarılı bildirim
       toast.success("Görev başarıyla eklendi!");
     } catch (err) {
@@ -294,6 +296,7 @@ export default function BoardPage({ searchQuery }) {
                 description={task.description}
                 priority={task.priority}
                 createdAt={task.createdAt}
+                dueDate={task.dueDate} // dueDate burada geçiliyor
                 highlight={searchQuery}
                 onClick={() => handleTaskClick(task)}
                 onDelete={() => handleDeleteTask(task.id, column.id)}
@@ -385,6 +388,15 @@ export default function BoardPage({ searchQuery }) {
                 </option>
               ))}
             </select>
+            {/* Tahmini Bitiş Tarihi */}
+            <input
+              type="date"
+              className="w-full p-2 border rounded mb-4"
+              value={currentTask.dueDate || ""}
+              onChange={(e) =>
+                setCurrentTask({ ...currentTask, dueDate: e.target.value })
+              }
+            />
             <div className="flex justify-end gap-2">
               <button
                 className="px-4 py-2 bg-gray-300 rounded"
