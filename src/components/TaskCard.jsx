@@ -1,6 +1,7 @@
 import React from "react";
+import { PencilRuler, Trash2 } from 'lucide-react';
 
-export function TaskCard({ id, title, description, priority, createdAt, onDelete, onUpdate, onClick,highlight }) {
+export function TaskCard({ id, title, description, priority, createdAt, onDelete, onUpdate, onClick, highlight }) {
   const getColorForPriority = (priority) => {
     switch (priority.toUpperCase()) {
       case "HIGH":
@@ -13,6 +14,7 @@ export function TaskCard({ id, title, description, priority, createdAt, onDelete
         return "bg-gray-400 text-white";
     }
   };
+
 
   const highlightText = (text, query) => {
     if (!query) return text;
@@ -54,11 +56,9 @@ export function TaskCard({ id, title, description, priority, createdAt, onDelete
               onUpdate(id);
             }}
           >
-            <img
-              src="../public/images/pencil.svg"
-              alt="Edit"
-              className="h-5 w-5"
-            />
+            <PencilRuler
+              alt="Delete"
+              className="h-5 w-5" />
           </button>
 
           {/* Silme Butonu */}
@@ -71,11 +71,10 @@ export function TaskCard({ id, title, description, priority, createdAt, onDelete
               }
             }}
           >
-            <img
-              src="../public/images/trash.svg"
+            <Trash2
               alt="Delete"
-              className="h-5 w-5"
-            />
+              className="h-5 w-5" />
+
           </button>
         </div>
       </div>
