@@ -17,6 +17,7 @@ const Header = ({ onSearch }) => {
 
     calculateNotifications();
   }, []);
+  
 
   useEffect(() => {
     const interval = setInterval(() => {
