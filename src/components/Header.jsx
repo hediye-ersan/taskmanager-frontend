@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Bell, HelpCircle, Search } from "lucide-react";
+import { formatDistanceToNow } from "date-fns";
 
 const Header = ({ onSearch }) => {
   const [username, setUsername] = useState("");
@@ -17,15 +18,10 @@ const Header = ({ onSearch }) => {
 
     calculateNotifications();
   }, []);
-  
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      calculateNotifications();
-    }, 10000); // 10 saniyede bir kontrol etmek istersen
-
-    return () => clearInterval(interval);
-  }, []);
+    calculateNotifications();
+  }, [localStorage.getItem("tasks")]);
 
   const calculateNotifications = () => {
     const now = new Date();
@@ -42,6 +38,7 @@ const Header = ({ onSearch }) => {
             title: task.title,
             dueDate: task.dueDate,
             message: `Görev "${task.title}" ${diffInDays} gün içinde tamamlanmalı.`,
+            type: "upcoming",
           };
         }
 
@@ -50,6 +47,7 @@ const Header = ({ onSearch }) => {
             title: task.title,
             dueDate: task.dueDate,
             message: `Görev "${task.title}" teslim tarihi geçti!`,
+            type: "overdue",
           };
         }
 
@@ -69,6 +67,11 @@ const Header = ({ onSearch }) => {
     updatedNotifications.splice(index, 1);
     setNotifications(updatedNotifications);
     setUnreadCount(updatedNotifications.length);
+  };
+
+  const markAllAsRead = () => {
+    setNotifications([]);
+    setUnreadCount(0);
   };
 
   return (
@@ -98,9 +101,17 @@ const Header = ({ onSearch }) => {
               )}
             </button>
             {isNotificationDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-80 bg-white shadow-lg rounded-lg overflow-y-auto max-h-96 z-50">
-                <div className="p-4 border-b">
+              <div className="absolute right-0 mt-2 w-80 bg-white shadow-lg rounded-lg overflow-y-auto max-h-96 z-50 notification-dropdown"
+              style={{ zIndex: 9999, position: "absolute"}} 
+              >
+                <div className="p-4 border-b flex justify-between items-center">
                   <h2 className="text-lg font-bold text-gray-800">Bildirimler</h2>
+                  <button
+                    className="text-blue-500 hover:underline text-sm"
+                    onClick={markAllAsRead}
+                  >
+                    Tümünü Okundu Olarak İşaretle
+                  </button>
                 </div>
                 <div className="p-4">
                   {notifications.length > 0 ? (
@@ -108,13 +119,20 @@ const Header = ({ onSearch }) => {
                       {notifications.map((notification, index) => (
                         <li
                           key={index}
-                          className="p-4 bg-gray-100 rounded-lg shadow flex flex-col"
+                          className={`p-4 rounded-lg shadow flex flex-col ${
+                            notification.type === "overdue"
+                              ? "bg-red-100"
+                              : "bg-yellow-100"
+                          }`}
                         >
                           <p className="text-sm font-medium text-gray-800">
                             {notification.message}
                           </p>
                           <p className="text-xs text-gray-500 mt-2">
-                            Tahmini Bitiş Tarihi: {notification.dueDate}
+                            Tahmini Bitiş Tarihi:{" "}
+                            {formatDistanceToNow(new Date(notification.dueDate), {
+                              addSuffix: true,
+                            })}
                           </p>
                           <div className="mt-2 flex justify-end">
                             <button
