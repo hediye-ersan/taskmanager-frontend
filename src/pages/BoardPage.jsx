@@ -42,6 +42,9 @@ export default function BoardPage({ searchQuery }) {
 
         const data = await res.json();
 
+        // localStorage'a görevleri kaydet
+        localStorage.setItem("tasks", JSON.stringify(data));
+
         // Görevleri boardColumnName'e göre grupla
         const grouped = {
           "To Do": [],
@@ -50,12 +53,12 @@ export default function BoardPage({ searchQuery }) {
         };
 
         data.forEach((task) => {
-          const boardColumnName = task.boardColumnName; // backend'den gelen kolon adı
+          const boardColumnName = task.boardColumnName;
           if (grouped[boardColumnName]) {
             grouped[boardColumnName].push(task);
           }
         });
-
+        console.log("LocalStorage Tasks:", JSON.parse(localStorage.getItem("tasks")));
         // Görevleri önem derecesine göre sıralayın
         const sortByPriority = (tasks) => {
           return tasks.sort((a, b) => {
@@ -77,6 +80,7 @@ export default function BoardPage({ searchQuery }) {
 
     fetchTasks();
   }, []);
+
 
   const filterTasks = (tasks) => {
     const now = new Date();
@@ -190,7 +194,6 @@ export default function BoardPage({ searchQuery }) {
   };
 
   const handleSaveTask = async () => {
-    console.log("handleSaveTask - newTask:", newTask);
     if (!newTask.title) return alert("Görev başlığı gerekli!");
 
     try {
@@ -220,16 +223,20 @@ export default function BoardPage({ searchQuery }) {
         )
       );
 
+      // localStorage'a görevleri kaydet
+      const savedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+      savedTasks.push(createdTask);
+      localStorage.setItem("tasks", JSON.stringify(savedTasks));
+
       setIsModalOpen(false);
       setNewTask({ title: "", description: "", priority: "LOW", dueDate: "" });
-      // Başarılı bildirim
       toast.success("Görev başarıyla eklendi!");
     } catch (err) {
       console.error(err);
-      // Hata bildirimi
       toast.error("Görev eklenirken bir hata oluştu.");
     }
   };
+
 
   // Görev silme
   const handleDeleteTask = async (taskId, columnId) => {
@@ -321,6 +328,10 @@ export default function BoardPage({ searchQuery }) {
             </p>
             <p className="text-sm text-gray-500 mb-4">
               <span className="font-semibold">Created At:</span>{" "}
+              {new Date(selectedTask.createdAt).toLocaleString()}
+            </p>
+            <p className="text-sm text-gray-500 mb-4">
+              <span className="font-semibold">Due Date:</span>{" "}
               {new Date(selectedTask.createdAt).toLocaleString()}
             </p>
             <div className="flex justify-end">
