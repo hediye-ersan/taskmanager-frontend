@@ -46,14 +46,14 @@ const COLORS = ["#EF4444", "#F59E0B", "#10B981"];
 
 export default function AnalyticsPage() {
   return (
-    <div className=" bg-gray-100 p-4 font-caveat">
-      <h1 className="text-3xl font-bold mb-4">Analytics</h1>
+    <div className=" bg-gray-100 dark:bg-gray-700 p-4 font-caveat">
+      <h1 className="text-3xl font-bold mb-4 dark:text-white">Analytics</h1>
 
       <div className="flex gap-4 ">
         {/* Sol Sütun */}
         <div className="flex flex-col flex-1 gap-4">
-          <div className="bg-white rounded-xl shadow-lg p-4">
-            <h2 className="text-lg font-semibold mb-2">Son 7 Günde Tamamlanan Görevler</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4">
+            <h2 className="text-lg font-semibold mb-2 dark:text-white">Son 7 Günde Tamamlanan Görevler</h2>
             <ResponsiveContainer width="100%" height={200}>
               <LineChart data={completedTasksData}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -65,8 +65,8 @@ export default function AnalyticsPage() {
             </ResponsiveContainer>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-4">
-            <h2 className="text-lg font-semibold mb-2">Tamamlanan Görevlerin Ortalama Süresi (Gün)</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4">
+            <h2 className="text-lg font-semibold mb-2 dark:text-white">Tamamlanan Görevlerin Ortalama Süresi (Gün)</h2>
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={averageCompletionTimeData}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -80,8 +80,8 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Sağ Sütun */}
-        <div className="w-1/3 bg-white rounded-xl shadow-lg p-6">
-          <h2 className="text-lg font-semibold mb-2 text-center ">Önceliğe Göre Görev Dağılımı</h2>
+        <div className="w-1/3 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+          <h2 className="text-lg font-semibold mb-2 text-center dark:text-white">Önceliğe Göre Görev Dağılımı</h2>
           <ResponsiveContainer width="100%" height={400}>
             <PieChart>
               <Pie

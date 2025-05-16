@@ -56,12 +56,12 @@ const AuthPage = ({ onLogin }) => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
+    <div className="flex justify-center items-center h-screen bg-gray-100 dark:bg-gray-800">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-lg shadow-lg w-80"
+        className="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg w-80"
       >
-        <h2 className="text-2xl mb-4 font-bold text-center">
+        <h2 className="text-2xl mb-4 font-bold text-center dark:text-white">
           {isRegister ? 'Kayıt Ol' : 'Giriş Yap'}
         </h2>
         <input

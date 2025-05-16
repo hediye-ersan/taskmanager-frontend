@@ -4,26 +4,26 @@ const TaskModal = ({ isOpen, task, onClose, onSave,dueDate, onChange }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white p-6 rounded shadow-lg w-96">
+    <div className="fixed inset-0 bg-black  bg-opacity-50 flex items-center justify-center">
+      <div className="bg-white dark:bg-gray-800 p-6 rounded shadow-lg w-96">
         <h2 className="text-xl font-bold mb-4">
           {task.id ? "Görevi Güncelle" : "Yeni Görev Ekle"}
         </h2>
         <input
           type="text"
-          placeholder="Görev Başlığı"
-          className="w-full p-2 border rounded mb-4"
+          placeholder="Görev Başlığı "
+          className="w-full p-2 border rounded mb-4 dark:bg-gray-800 dark:text-white dark:border-gray-600"
           value={task.title}
           onChange={(e) => onChange({ ...task, title: e.target.value })}
         />
         <textarea
           placeholder="Görev Açıklaması"
-          className="w-full p-2 border rounded mb-4"
+          className="w-full p-2 border rounded mb-4 dark:bg-gray-800 dark:text-white dark:border-gray-600"
           value={task.description}
           onChange={(e) => onChange({ ...task, description: e.target.value })}
         />
         <select
-          className="w-full p-2 border rounded mb-4"
+          className="w-full p-2 border rounded mb-4 dark:bg-gray-800 dark:text-white dark:border-gray-600"
           value={task.priority}
           onChange={(e) => onChange({ ...task, priority: e.target.value })}
         >
@@ -34,7 +34,7 @@ const TaskModal = ({ isOpen, task, onClose, onSave,dueDate, onChange }) => {
 
         <input
           type="date"
-          className="w-full p-2 border rounded mb-4"
+          className="w-full p-2 border rounded mb-4 dark:bg-gray-800 dark:text-white dark:border-gray-600"
           value={task.dueDate || ""}
           onChange={(e) => onChange({ ...task, dueDate: e.target.value })}
         />

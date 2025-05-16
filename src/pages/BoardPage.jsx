@@ -272,12 +272,12 @@ export default function BoardPage({ searchQuery }) {
   };
 
   return (
-    <div className="p-4 dark:bg-gray-900 dark:text-white">
+    <div className="p-4 dark:bg-gray-700 dark:text-white">
       <div className="flex items-center justify-between mb-6 ">
         <h1 className="text-3xl font-bold font-caveat">My Board ✨</h1>
         {/* Filtreleme Dropdown */}
         <select
-          className="p-2 border rounded-md bg-gray-50 dark:bg-gray-800 font-caveat"
+          className="p-2 border rounded-md bg-gray-50 dark:bg-gray-600 font-caveat"
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
         >
@@ -320,10 +320,10 @@ export default function BoardPage({ searchQuery }) {
       {/* Görev Detay Modalı */}
       {selectedTask && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-md">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">{selectedTask.title}</h2>
-            <p className="text-gray-600 mb-4">{selectedTask.description}</p>
-            <p className="text-sm text-gray-500 mb-4">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg w-full max-w-md">
+            <h2 className="text-2xl font-bold text-gray-800 mb-4 dark:text-white ">{selectedTask.title}</h2>
+            <p className="text-gray-600 dark:text-white  mb-4">{selectedTask.description}</p>
+            <p className="text-sm text-gray-500 dark:text-white mb-4">
               <span className="font-semibold">Priority:</span> {selectedTask.priority}
             </p>
             <p className="text-sm text-gray-500 mb-4">
@@ -349,12 +349,12 @@ export default function BoardPage({ searchQuery }) {
       {/* Güncelleme Modalı */}
       {isUpdateModalOpen && currentTask && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded shadow-lg w-96">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded shadow-lg w-96">
             <h2 className="text-xl font-bold mb-4">Görevi Güncelle</h2>
             <input
               type="text"
               placeholder="Görev Başlığı"
-              className="w-full p-2 border rounded mb-4"
+              className="w-full p-2 border rounded mb-4 dark:bg-gray-800 dark:text-white dark:border-gray-600"
               value={currentTask.title}
               onChange={(e) =>
                 setCurrentTask({ ...currentTask, title: e.target.value })
@@ -363,19 +363,19 @@ export default function BoardPage({ searchQuery }) {
             <div>
               <textarea
                 placeholder="Görev Açıklaması"
-                className="w-full p-2 border rounded mb-4"
+                className="w-full p-2 border rounded mb-4 dark:bg-gray-800 dark:text-white dark:border-gray-600"
                 value={currentTask.description}
                 onChange={(e) =>
                   setCurrentTask({ ...currentTask, description: e.target.value })
                 }
                 maxLength={255}
               />
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 dark:text-white">
                 {255 - currentTask.description.length} karakter kaldı
               </p>
             </div>
             <select
-              className="w-full p-2 border rounded mb-4"
+              className="w-full p-2 border rounded mb-4 dark:bg-gray-800 dark:text-white dark:border-gray-600"
               value={currentTask.priority}
               onChange={(e) =>
                 setCurrentTask({ ...currentTask, priority: e.target.value })
@@ -387,7 +387,7 @@ export default function BoardPage({ searchQuery }) {
             </select>
             {/* Kategori Seçimi */}
             <select
-              className="w-full p-2 border rounded mb-4"
+              className="w-full p-2 border rounded mb-4 dark:bg-gray-800 dark:text-white dark:border-gray-600"
               value={currentTask.boardColumnName}
               onChange={(e) =>
                 setCurrentTask({ ...currentTask, boardColumnName: e.target.value })
@@ -402,7 +402,7 @@ export default function BoardPage({ searchQuery }) {
             {/* Tahmini Bitiş Tarihi */}
             <input
               type="date"
-              className="w-full p-2 border rounded mb-4"
+              className="w-full p-2 border rounded mb-4 dark:bg-gray-800 dark:text-white dark:border-gray-600"
               value={currentTask.dueDate || ""}
               onChange={(e) =>
                 setCurrentTask({ ...currentTask, dueDate: e.target.value })

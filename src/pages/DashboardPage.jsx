@@ -92,27 +92,27 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="p-4 flex flex-col gap-4 font-caveat ">
+    <div className="p-4 flex flex-col gap-4 font-caveat dark:bg-gray-700 dark:text-white">
       <h1 className="text-3xl font-bold"> My Dashboard</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Görev Durumu */}
-        <div className="bg-gray-100 p-4 rounded-lg shadow">
+        <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg shadow">
           <h2 className="text-xl font-semibold mb-4">Görev Durumu</h2>
-          <p className="text-gray-600">
-            Yapılacak: <span className="font-bold">{taskCounts.todo}</span>
+          <p className="text-gray-600 dark:text-white">
+            Yapılacak: <span className="font-bold ">{taskCounts.todo}</span>
           </p>
-          <p className="text-gray-600">
+          <p className="text-gray-600 dark:text-white">
             Devam Eden: <span className="font-bold">{taskCounts.inProgress}</span>
           </p>
-          <p className="text-gray-600">
+          <p className="text-gray-600 dark:text-white">
             Tamamlanan: <span className="font-bold">{taskCounts.done}</span>
           </p>
         </div>
 
         {/* Son Etkinlikler */}
-        <div className="bg-gray-200 p-4 rounded-lg shadow">
+        <div className="bg-gray-200 dark:bg-gray-800 p-4 rounded-lg shadow">
           <h2 className="text-xl font-semibold mb-4">Son Etkinlikler</h2>
-          <ul className="text-gray-600 space-y-2">
+          <ul className="text-gray-600 dark:text-white space-y-2">
             {recentActivities.map((activity, index) => {
               // Tarih kontrolü
               const isValidDate =
@@ -137,10 +137,10 @@ const DashboardPage = () => {
         </div>
 
         {/* Hızlı Erişim */}
-        <div className="bg-gray-300 p-4 rounded-lg shadow">
+        <div className="bg-gray-300 dark:bg-gray-800 p-4 rounded-lg shadow">
           <h2 className="text-xl font-semibold mb-4">Hızlı Erişim</h2>
           <button
-            className="bg-gray-200  px-4 py-2 rounded-lg hover:bg-gray-400 transition"
+            className="bg-gray-200  px-4 py-2 rounded-lg hover:bg-gray-400 dark:bg-gray-700"
             onClick={() => setIsModalOpen(true)}
           >
             Yeni Görev Ekle

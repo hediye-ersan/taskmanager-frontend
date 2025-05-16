@@ -47,14 +47,14 @@ const Sidebar = ({ onLogout, onNavigate }) => {
 
   return (
     <>
-      <aside className="w-60 h-screen bg-gray-50 border-r flex flex-col py-6 px-4 font-caveat drop-shadow-lg min-h-screen">
+      <aside className="w-60 h-screen bg-gray-50 dark:bg-gray-800 dark:text-white dark:border-gray-600 border-r flex flex-col py-6 px-4 font-caveat drop-shadow-lg min-h-screen">
         <div className="flex-1 overflow-y-auto">
           <h1 className="text-3xl font-bold mb-8 px-2">
             {username
               ? `${username.charAt(0).toUpperCase()}${username.slice(1).toLowerCase()}'s Manager 🚀`
               : "My Manager"}
           </h1>
-          <nav className="flex flex-col gap-3">
+          <nav className="flex flex-col gap-3 ">
             <NavItem
               icon={<LayoutDashboard size={25} />}
               text="Dashboard"
@@ -121,10 +121,12 @@ const NavItem = ({ icon, text, active, onClick }) => (
   <div
     onClick={onClick}
     className={`flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer transition-colors
-    ${active ? "bg-blue-50 text-black font-medium" : "text-gray-600 hover:bg-gray-100"}`}
+    ${active 
+      ? "bg-blue-50 text-black font-medium dark:bg-gray-700 dark:text-white" 
+      : "text-gray-600 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"}`}
   >
-    {icon}
-    <span>{text}</span>
+    <span className="dark:text-white">{icon}</span>
+    <span className="dark:text-white">{text}</span>
   </div>
 );
 

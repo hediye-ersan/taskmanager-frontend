@@ -32,7 +32,7 @@ function App() {
   return (
     <Router>
       {!isAuthChecked ? (
-        <div className="flex justify-center items-center h-screen text-xl">Yükleniyor...</div>
+        <div className="flex justify-center items-center h-screen  text-xl">Yükleniyor...</div>
       ) : (
         <Switch>
           {/* Login/Register Sayfası */}
