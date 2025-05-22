@@ -332,7 +332,7 @@ export default function BoardPage({ searchQuery }) {
             </p>
             <p className="text-sm text-gray-500 mb-4">
               <span className="font-semibold">Due Date:</span>{" "}
-              {new Date(selectedTask.createdAt).toLocaleString()}
+              {new Date(selectedTask.dueDate).toLocaleString()}
             </p>
             <div className="flex justify-end">
               <button
