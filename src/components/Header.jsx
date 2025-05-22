@@ -26,9 +26,35 @@ const Header = ({ onSearch }) => {
     calculateNotifications();
   }, [localStorage.getItem("tasks")]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      calculateNotifications();
+    }, 2000); // Her 2 saniyede bir kontrol et
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const READ_NOTIFICATIONS_KEY = "readNotifications";
+
+  const getReadNotifications = () => {
+    return JSON.parse(localStorage.getItem(READ_NOTIFICATIONS_KEY)) || [];
+  };
+
+  const addReadNotification = (notification) => {
+    const read = getReadNotifications();
+    // Benzersiz anahtar olarak dueDate ve title kullanıyoruz
+    read.push({ dueDate: notification.dueDate, title: notification.title });
+    localStorage.setItem(READ_NOTIFICATIONS_KEY, JSON.stringify(read));
+  };
+
+  const clearReadNotifications = () => {
+    localStorage.setItem(READ_NOTIFICATIONS_KEY, JSON.stringify([]));
+  };
+
   const calculateNotifications = () => {
     const now = new Date();
     const savedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    const read = getReadNotifications();
 
     const newNotifications = savedTasks
       .filter((task) => task.dueDate)
@@ -56,7 +82,14 @@ const Header = ({ onSearch }) => {
 
         return null;
       })
-      .filter(Boolean);
+      .filter(Boolean)
+      // Okunan bildirimleri hariç tut
+      .filter(
+        (notif) =>
+          !read.some(
+            (r) => r.dueDate === notif.dueDate && r.title === notif.title
+          )
+      );
 
     setNotifications(newNotifications);
     setUnreadCount(newNotifications.length);
@@ -66,6 +99,8 @@ const Header = ({ onSearch }) => {
     name ? name.split(" ").map((n) => n[0]).join("").toUpperCase() : "U";
 
   const handleMarkAsRead = (index) => {
+    const notification = notifications[index];
+    addReadNotification(notification);
     const updatedNotifications = [...notifications];
     updatedNotifications.splice(index, 1);
     setNotifications(updatedNotifications);
@@ -73,6 +108,7 @@ const Header = ({ onSearch }) => {
   };
 
   const markAllAsRead = () => {
+    notifications.forEach(addReadNotification);
     setNotifications([]);
     setUnreadCount(0);
   };
