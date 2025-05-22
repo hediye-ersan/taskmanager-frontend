@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import api from '../api'; // API fonksiyonlarını içe aktar
 
 const AuthPage = ({ onLogin }) => {
   const [isRegister, setIsRegister] = useState(false); // Login/Register durumu
@@ -14,44 +15,35 @@ const AuthPage = ({ onLogin }) => {
     e.preventDefault();
 
     const url = isRegister
-      ? 'http://localhost:8080/api/auth/register'
-      : 'http://localhost:8080/api/auth/login';
+      ? '/auth/register'
+      : '/auth/login';
 
     const body = isRegister
       ? { username, password, email }
       : { username, password };
 
     try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      });
+      const response = await api.post(url, body);
 
-      const data = await response.json();
+      const data = response.data;
 
-      if (response.ok) {
-        if (isRegister) {
-          // Kayıt başarılı
-          toast.success("Kayıt başarılı! Şimdi giriş yapabilirsiniz.");
-          setIsRegister(false); // Kayıt sonrası Login'e geçiş
-        } else {
-          // Giriş başarılı
-          localStorage.setItem("token", data.token); // Token'ı sakla
-          localStorage.setItem("username", username); // Kullanıcı adını sakla
-          toast.success("Giriş başarılı!");
-          onLogin(); // Kullanıcı giriş yaptı olarak işaretlenir
-          history.push("/dashboard"); // Dashboard'a yönlendir
-        }
+      if (isRegister) {
+        // Kayıt başarılı
+        toast.success("Kayıt başarılı! Şimdi giriş yapabilirsiniz.");
+        setIsRegister(false); // Kayıt sonrası Login'e geçiş
       } else {
-        // Hatalı işlem
-        toast.error(data.message || (isRegister ? 'Kayıt başarısız!' : 'Giriş başarısız!'));
+        // Giriş başarılı
+        localStorage.setItem("token", data.token); // Token'ı sakla
+        localStorage.setItem("username", username); // Kullanıcı adını sakla
+        toast.success("Giriş başarılı!");
+        onLogin(); // Kullanıcı giriş yaptı olarak işaretlenir
+        history.push("/dashboard"); // Dashboard'a yönlendir
       }
     } catch (err) {
-      console.error(err);
-      toast.error('Sunucuya bağlanılamadı.');
+      const message =
+        err.response?.data?.message ||
+        (isRegister ? 'Kayıt başarısız!' : 'Giriş başarısız!');
+      toast.error(message);
     }
   };
 
