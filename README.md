@@ -1,12 +1,35 @@
-# React + Vite
+# Task Manager - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Modern ve kullanıcı dostu bir **task management** arayüzü. React, Tailwind CSS ve Vite kullanılarak geliştirilmiştir. 
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Özellikler
 
-## Expanding the ESLint configuration
+- JWT tabanlı güvenli kullanıcı girişi  
+- Görev oluşturma, güncelleme, silme işlemleri  
+- Görevler için son tarih ve öncelik seviyesi belirleme  
+- Modal yapısı ile görev işlemlerini kolaylaştırma  
+- Şimdilik masaüstü cihazlara optimize edilmiş kullanıcı deneyimi  
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## Kullanılan Teknolojiler
+
+- React  
+- Tailwind CSS  
+- Vite  
+- JWT (kimlik doğrulama)  
+- JavaScript (ES6+)  
+
+---
+
+## Başlarken
+
+Projeyi yerel ortamda çalıştırmak için:
+
+```bash
+git clone https://github.com/hediye-ersan/taskmanager-frontend.git
+cd taskmanager-frontend
+npm install
+npm run dev
