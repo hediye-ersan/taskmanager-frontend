@@ -24,6 +24,14 @@ Modern ve kullanıcı dostu bir **task management** arayüzü. React, Tailwind C
 
 ---
 
+![Board(Dark)](public/images/4.png)
+![Board](public/images/6.png)
+![Dashboard(Dark)](public/images/2.png)
+![Dashboard](public/images/5.png)
+![Analytics(Dark)](public/images/1.png)
+![Analytics](public/images/7.png)
+
+
 ## Başlarken
 
 Projeyi yerel ortamda çalıştırmak için:
